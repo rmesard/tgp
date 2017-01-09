@@ -1,0 +1,83 @@
+/*
+Error: File to import not found or unreadable: zen.
+       Load paths:
+         Compass::SpriteImporter
+         /Users/ron/Sites/drupal/sites/all/themes/tgp/sass
+         /Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets
+        on line 123 of tgp/sass/_init.scss
+        from line 2 of tgp/sass/tgp.scss
+
+118: 			//text-shadow: 2px 2px 0px #333;
+119: 			//line-height: 2px;
+120: 			//bottom: -2px;
+121: 			color: inherit;
+122: 		}
+123: 	}
+124: 	h2 {
+125: 		//margin-bottom: 0;
+126: 		clear: both;	
+127: 		font-size: 1.1em;
+128: 		&:after {
+
+Backtrace:
+tgp/sass/_init.scss:123
+tgp/sass/tgp.scss:2
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/import_node.rb:67:in `rescue in import'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/import_node.rb:45:in `import'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/import_node.rb:28:in `imported_file'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/import_node.rb:37:in `css_import?'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:311:in `visit_import'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/stack.rb:79:in `block in with_base'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/stack.rb:115:in `with_frame'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/stack.rb:79:in `with_base'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:158:in `visit'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:325:in `block (2 levels) in visit_import'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:325:in `map'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:325:in `block in visit_import'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/stack.rb:88:in `block in with_import'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/stack.rb:115:in `with_frame'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/stack.rb:88:in `with_import'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:322:in `visit_import'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/stack.rb:79:in `block in with_base'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/stack.rb:115:in `with_frame'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/stack.rb:79:in `with_base'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:158:in `visit'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:52:in `map'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:157:in `visit'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:8:in `visit'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/root_node.rb:36:in `css_tree'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/tree/root_node.rb:20:in `render'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/engine.rb:268:in `render'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/plugin/compiler.rb:492:in `update_stylesheet'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/plugin/compiler.rb:209:in `each'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.14/lib/sass/plugin/compiler.rb:293:in `watch'
+/Library/Ruby/Gems/2.0.0/gems/compass-1.0.3/lib/compass/sass_compiler.rb:46:in `watch!'
+/Library/Ruby/Gems/2.0.0/gems/compass-1.0.3/lib/compass/commands/watch_project.rb:41:in `perform'
+/Library/Ruby/Gems/2.0.0/gems/compass-1.0.3/lib/compass/commands/base.rb:18:in `execute'
+/Library/Ruby/Gems/2.0.0/gems/compass-1.0.3/lib/compass/commands/project_base.rb:19:in `execute'
+/Library/Ruby/Gems/2.0.0/gems/compass-1.0.3/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
+/Library/Ruby/Gems/2.0.0/gems/compass-1.0.3/lib/compass/exec/sub_command_ui.rb:15:in `run!'
+/Library/Ruby/Gems/2.0.0/gems/compass-1.0.3/bin/compass:30:in `block in <top (required)>'
+/Library/Ruby/Gems/2.0.0/gems/compass-1.0.3/bin/compass:44:in `call'
+/Library/Ruby/Gems/2.0.0/gems/compass-1.0.3/bin/compass:44:in `<top (required)>'
+/usr/bin/compass:23:in `load'
+/usr/bin/compass:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: File to import not found or unreadable: zen.\A        Load paths:\A          Compass::SpriteImporter\A          /Users/ron/Sites/drupal/sites/all/themes/tgp/sass\A          /Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.3/stylesheets\A         on line 123 of tgp/sass/_init.scss\A         from line 2 of tgp/sass/tgp.scss\A \A 118: 			//text-shadow: 2px 2px 0px #333;\A 119: 			//line-height: 2px;\A 120: 			//bottom: -2px;\A 121: 			color: inherit;\A 122: 		}\A 123: 	}\A 124: 	h2 {\A 125: 		//margin-bottom: 0;\A 126: 		clear: both;	\A 127: 		font-size: 1.1em;\A 128: 		&:after {"; }
