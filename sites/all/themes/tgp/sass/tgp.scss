@@ -158,8 +158,9 @@ td.active {
 }
 
 #page, .region-bottom {
-	max-width: 1000px;
+	//max-width: 1000px;
 }
+
 
 //#header, #main {
 //	box-shadow: 0px 0px 4px red;	
@@ -859,6 +860,23 @@ td.active {
 				color: #3d4749;
 				background-color: #96947b;
 				cursor: pointer;
+				&.menu__link-amazon {
+					//outline: dotted 4px red;
+					//position: absolute;
+					//top: 0;
+					//bottom: 0;
+					//left: 0;
+					//right: 0;
+					//margin-bottom: 0;
+					background-image: url(../images/amazon_logo_CMYK.png);
+					background-repeat: no-repeat;
+					background-size: auto 85%;
+					background-position: 50% 100%;
+					text-indent: -9999px;
+					&:hover, &:focus {
+						background-image: url(../images/amazon_logo_CMYK_W.png);
+					}
+				}
 				&.active, &.active-trail {
 					color: #fff;
 					font-weight: bold;
@@ -905,6 +923,12 @@ td.active {
 				ul {
 					padding-left: 20px;
 					//outline: dotted 1px pink;
+				}
+			}
+			&.menu__item-amazon {
+				ul {
+					left: auto;
+					right: 0;
 				}
 			}
 		}
@@ -1437,7 +1461,7 @@ td.active {
 			.view-homepage-promos {
 				.view-content {
 					.homepage-promo-item {
-						width: 210px;
+						width: 240px;
 					}
 				}
 			}
@@ -1450,20 +1474,27 @@ td.active {
 	}
 
 	#navigation {
+		//display: flex;
+		//flex-direction: row;
+		//flex-wrap: nowrap;
 		padding-left: 10px;
 		padding-right: 10px;
 		border-bottom: solid 6px #96947b;
 		height: 2em;
 		font-size: 12px;
 		.links, .menu {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
 			li {
 				padding: 0 10px 0 0;
 			}
 			> li {
 				//border-bottom: solid 6px #96947b;
-				float: left;
+				//float: left;
 				position: relative;
-				width: 12.9%; //13.25%; //130px;
+				//width: 12.9%; //13.25%; //130px;
+				flex: 1 1 0;
 				a {
 					padding: 5px 8px 0 8px;
 					margin-bottom: 5px;
@@ -1479,6 +1510,7 @@ td.active {
 				ul {
 					position: absolute;
 					//top: 18px;
+					display: block;
 					min-width: 150%;
 					left: -10px;
 					white-space: nowrap;

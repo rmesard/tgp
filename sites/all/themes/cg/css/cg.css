@@ -86,11 +86,6 @@ input[type=submit]:active, button:active {
   box-shadow: 0 0 20px #ddd;
 }
 
-/* line 89, ../sass/cg.scss */
-#page, .region-bottom {
-  max-width: 1000px;
-}
-
 /* line 98, ../sass/cg.scss */
 #main #content table, .cke_editable table {
   max-width: 100%;

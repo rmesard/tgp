@@ -165,15 +165,15 @@ $zen-auto-include-item-base: false;
     /* Span 4 columns, starting in 2nd column from left. */
     #content {
       @include zen-grid-item(4, 2);
-      width: 70%;
-      margin-left: 30%;
+      width: 75%; //70%;
+      margin-left: 25%; //30%;
     }
 
     /* Span 1 column, starting in 1st column from left. */
     .region-sidebar-first {
       @include zen-grid-item(1, 1);
-        width: 30%;
-        margin-right: -30%;
+        width: 25%; //30%;
+        margin-right: -25%; //-30%;
     }
   }
 
