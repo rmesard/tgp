@@ -123,24 +123,38 @@ function slick_example_views_default_views() {
   $handler->display->display_options['fields']['field_images']['type'] = 'slick';
   $handler->display->display_options['fields']['field_images']['settings'] = array(
     'optionset' => 'x_3d_back',
-    'optionset_label' => 'X 3d back',
     'skin' => '3d-back',
     'optionset_thumbnail' => '',
-    'optionset_thumbnail_label' => '',
-    'dots_main' => '1',
-    'dots_thumbnail' => '',
     'skin_thumbnail' => '',
+    'skin_arrows' => '',
+    'skin_dots' => '',
     'asnavfor_main' => '',
     'asnavfor_thumbnail' => '',
+    'asnavfor_auto' => 0,
     'image_style' => 'slick_600x460',
     'thumbnail_style' => '',
     'thumbnail_hover' => 1,
     'slide_layout' => 'below',
+    'thumbnail_caption' => '',
+    'media_switch' => '',
+    'colorbox_style' => '',
     'slide_caption' => array(
       'title_field' => 'title_field',
       'alt_field' => 'alt_field',
     ),
     'mousewheel' => 1,
+    'picture' => 0,
+    'picture_fallback' => '',
+    'markup' => 0,
+    'cache' => '',
+    'override' => 0,
+    'overridables' => array(
+      'arrows' => 0,
+      'autoplay' => 0,
+      'dots' => 0,
+      'draggable' => 0,
+    ),
+    'current_view_mode' => '_custom',
   );
   $handler->display->display_options['fields']['field_images']['delta_offset'] = '0';
   $handler->display->display_options['fields']['field_images']['field_api_classes'] = TRUE;
@@ -180,26 +194,38 @@ function slick_example_views_default_views() {
   $handler->display->display_options['fields']['field_images']['type'] = 'slick';
   $handler->display->display_options['fields']['field_images']['settings'] = array(
     'optionset' => 'x_main',
-    'optionset_label' => 'X Main',
     'skin' => 'fullwidth',
     'optionset_thumbnail' => '',
-    'optionset_thumbnail_label' => '',
-    'dots_main' => '1',
-    'dots_thumbnail' => '',
     'skin_thumbnail' => '',
+    'skin_arrows' => '',
+    'skin_dots' => '',
     'asnavfor_main' => '',
     'asnavfor_thumbnail' => '',
     'asnavfor_auto' => 0,
-    'thumbnail_caption' => '',
     'image_style' => 'slick_1280',
     'thumbnail_style' => 'slick_140x80',
     'thumbnail_hover' => 1,
     'slide_layout' => 'stage-zebra',
+    'thumbnail_caption' => '',
+    'media_switch' => '',
+    'colorbox_style' => '',
     'slide_caption' => array(
       'title_field' => 'title_field',
       'alt_field' => 'alt_field',
     ),
     'mousewheel' => 0,
+    'picture' => 0,
+    'picture_fallback' => '',
+    'markup' => 0,
+    'cache' => '',
+    'override' => 0,
+    'overridables' => array(
+      'arrows' => 0,
+      'autoplay' => 0,
+      'dots' => 0,
+      'draggable' => 0,
+    ),
+    'current_view_mode' => '_custom',
   );
   $handler->display->display_options['fields']['field_images']['delta_offset'] = '0';
   $handler->display->display_options['fields']['field_images']['field_api_classes'] = TRUE;
@@ -232,26 +258,34 @@ function slick_example_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'slick';
+  $handler->display->display_options['style_options']['slide_thumbnail'] = 'field_images_1';
+  $handler->display->display_options['style_options']['slide_field_wrapper'] = 1;
+  $handler->display->display_options['style_options']['id'] = 'slick-asnavfor';
+  $handler->display->display_options['style_options']['asnavfor_auto'] = 1;
   $handler->display->display_options['style_options']['optionset'] = 'x_slick_for';
   $handler->display->display_options['style_options']['optionset_thumbnail'] = 'x_slick_nav';
   $handler->display->display_options['style_options']['skin'] = 'classic';
   $handler->display->display_options['style_options']['skin_thumbnail'] = 'asnavfor';
-  $handler->display->display_options['style_options']['asnavfor_auto'] = 1;
-  $handler->display->display_options['style_options']['thumbnail_caption'] = 'title';
-  $handler->display->display_options['style_options']['preserve_keys'] = 0;
-  $handler->display->display_options['style_options']['slide_field_wrapper'] = 1;
-  $handler->display->display_options['style_options']['slide_title'] = 'title';
-  $handler->display->display_options['style_options']['slide_image'] = 'field_images';
-  $handler->display->display_options['style_options']['slide_thumbnail'] = 'field_images_1';
-  $handler->display->display_options['style_options']['slide_layout'] = 'stage-zebra';
   $handler->display->display_options['style_options']['slide_caption'] = array(
-    'edit_node' => 'edit_node',
     'body' => 'body',
     'title' => 0,
     'field_images_1' => 0,
     'field_images' => 0,
   );
-  $handler->display->display_options['style_options']['id'] = 'slick-asnavfor';
+  $handler->display->display_options['style_options']['slide_image'] = 'field_images';
+  $handler->display->display_options['style_options']['slide_layout'] = 'stage-zebra';
+  $handler->display->display_options['style_options']['slide_overlay'] = '';
+  $handler->display->display_options['style_options']['slide_title'] = 'title';
+  $handler->display->display_options['style_options']['thumbnail_caption'] = 'title';
+  $handler->display->display_options['style_options']['preserve_keys'] = 0;
+  $handler->display->display_options['style_options']['override'] = 0;
+  $handler->display->display_options['style_options']['overridables'] = array(
+    'arrows' => 0,
+    'autoplay' => 0,
+    'dots' => 0,
+    'draggable' => 0,
+  );
+  $handler->display->display_options['style_options']['cache'] = '';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
@@ -265,13 +299,6 @@ function slick_example_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Edit link */
-  $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
-  $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
-  $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
-  $handler->display->display_options['fields']['edit_node']['label'] = '';
-  $handler->display->display_options['fields']['edit_node']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['edit_node']['text'] = 'Edit';
   /* Field: Thumbnails */
   $handler->display->display_options['fields']['field_images_1']['id'] = 'field_images_1';
   $handler->display->display_options['fields']['field_images_1']['table'] = 'field_data_field_images';
@@ -324,19 +351,27 @@ function slick_example_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'slick';
+  $handler->display->display_options['style_options']['slide_field_wrapper'] = 1;
+  $handler->display->display_options['style_options']['id'] = 'slick-carousel';
+  $handler->display->display_options['style_options']['asnavfor_auto'] = 0;
   $handler->display->display_options['style_options']['optionset'] = 'x_carousel';
   $handler->display->display_options['style_options']['skin'] = 'rounded';
-  $handler->display->display_options['style_options']['asnavfor_auto'] = 0;
-  $handler->display->display_options['style_options']['preserve_keys'] = 0;
-  $handler->display->display_options['style_options']['slide_field_wrapper'] = 1;
-  $handler->display->display_options['style_options']['slide_image'] = 'field_images';
-  $handler->display->display_options['style_options']['slide_layout'] = 'below';
   $handler->display->display_options['style_options']['slide_caption'] = array(
     'title' => 'title',
-    'edit_node' => 'edit_node',
     'field_images' => 0,
   );
-  $handler->display->display_options['style_options']['id'] = 'slick-carousel';
+  $handler->display->display_options['style_options']['slide_image'] = 'field_images';
+  $handler->display->display_options['style_options']['slide_layout'] = 'below';
+  $handler->display->display_options['style_options']['slide_overlay'] = '';
+  $handler->display->display_options['style_options']['preserve_keys'] = 0;
+  $handler->display->display_options['style_options']['override'] = 0;
+  $handler->display->display_options['style_options']['overridables'] = array(
+    'arrows' => 0,
+    'autoplay' => 0,
+    'dots' => 0,
+    'draggable' => 0,
+  );
+  $handler->display->display_options['style_options']['cache'] = '';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
@@ -364,13 +399,6 @@ function slick_example_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Edit link */
-  $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
-  $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
-  $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
-  $handler->display->display_options['fields']['edit_node']['label'] = '';
-  $handler->display->display_options['fields']['edit_node']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['edit_node']['text'] = 'Edit';
   $handler->display->display_options['block_description'] = 'Slick X: carousel';
 
   /* Display: Block: fullscreen */
@@ -402,24 +430,38 @@ function slick_example_views_default_views() {
   $handler->display->display_options['fields']['field_images']['type'] = 'slick';
   $handler->display->display_options['fields']['field_images']['settings'] = array(
     'optionset' => 'x_fullscreen',
-    'optionset_label' => 'Fullscreen',
     'skin' => 'fullscreen',
     'optionset_thumbnail' => '',
-    'optionset_thumbnail_label' => '',
-    'dots_main' => '1',
-    'dots_thumbnail' => '',
     'skin_thumbnail' => '',
+    'skin_arrows' => '',
+    'skin_dots' => '',
     'asnavfor_main' => '',
     'asnavfor_thumbnail' => '',
+    'asnavfor_auto' => 0,
     'image_style' => 'slick_1280',
     'thumbnail_style' => '',
     'thumbnail_hover' => 1,
     'slide_layout' => 'stage-zebra',
+    'thumbnail_caption' => '',
+    'media_switch' => '',
+    'colorbox_style' => '',
     'slide_caption' => array(
       'title_field' => 'title_field',
       'alt_field' => 'alt_field',
     ),
     'mousewheel' => 0,
+    'picture' => 0,
+    'picture_fallback' => '',
+    'markup' => 0,
+    'cache' => '',
+    'override' => 0,
+    'overridables' => array(
+      'arrows' => 0,
+      'autoplay' => 0,
+      'dots' => 0,
+      'draggable' => 0,
+    ),
+    'current_view_mode' => '_custom',
   );
   $handler->display->display_options['fields']['field_images']['delta_offset'] = '0';
   $handler->display->display_options['fields']['field_images']['field_api_classes'] = TRUE;
@@ -438,24 +480,23 @@ function slick_example_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'slick';
+  $handler->display->display_options['style_options']['slide_field_wrapper'] = 1;
+  $handler->display->display_options['style_options']['id'] = 'slick-grid';
+  $handler->display->display_options['style_options']['asnavfor_auto'] = 0;
   $handler->display->display_options['style_options']['optionset'] = 'x_grid';
   $handler->display->display_options['style_options']['skin'] = 'grid';
-  $handler->display->display_options['style_options']['asnavfor_main'] = '#slick-grid-thumbnail';
-  $handler->display->display_options['style_options']['asnavfor_thumbnail'] = '#slick-grid';
-  $handler->display->display_options['style_options']['asnavfor_auto'] = 0;
+  $handler->display->display_options['style_options']['slide_caption'] = array(
+    'field_image' => 0,
+    'title' => 0,
+    'body' => 0,
+  );
+  $handler->display->display_options['style_options']['slide_image'] = 'field_image';
+  $handler->display->display_options['style_options']['slide_overlay'] = '';
   $handler->display->display_options['style_options']['grid'] = '6';
   $handler->display->display_options['style_options']['grid_medium'] = '3';
   $handler->display->display_options['style_options']['grid_small'] = '2';
   $handler->display->display_options['style_options']['visible_slides'] = '12';
   $handler->display->display_options['style_options']['preserve_keys'] = 0;
-  $handler->display->display_options['style_options']['slide_field_wrapper'] = 1;
-  $handler->display->display_options['style_options']['slide_image'] = 'field_image';
-  $handler->display->display_options['style_options']['slide_caption'] = array(
-    'field_image' => 0,
-    'title' => 0,
-    'edit_node' => 0,
-    'body' => 0,
-  );
   $handler->display->display_options['style_options']['override'] = 0;
   $handler->display->display_options['style_options']['overridables'] = array(
     'arrows' => 0,
@@ -463,14 +504,14 @@ function slick_example_views_default_views() {
     'dots' => 0,
     'draggable' => 0,
   );
-  $handler->display->display_options['style_options']['id'] = 'slick-grid';
+  $handler->display->display_options['style_options']['cache'] = '';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['hide_empty'] = TRUE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Image */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
   $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
   $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
@@ -490,13 +531,6 @@ function slick_example_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  /* Field: Content: Edit link */
-  $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
-  $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
-  $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
-  $handler->display->display_options['fields']['edit_node']['label'] = '';
-  $handler->display->display_options['fields']['edit_node']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['edit_node']['text'] = 'Edit';
   /* Field: Content: Body */
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
@@ -522,7 +556,7 @@ function slick_example_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'article' => 'article',
   );
-  /* Filter criterion: Content: Image (field_image:fid) */
+  /* Filter criterion: Field: Image (field_image:fid) */
   $handler->display->display_options['filters']['field_image_fid']['id'] = 'field_image_fid';
   $handler->display->display_options['filters']['field_image_fid']['table'] = 'field_data_field_image';
   $handler->display->display_options['filters']['field_image_fid']['field'] = 'field_image_fid';

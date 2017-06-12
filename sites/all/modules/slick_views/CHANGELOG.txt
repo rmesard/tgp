@@ -1,4 +1,8 @@
 
+Slick views 7.x-2.0-dev, 2015-12-12
+-----------------------------------
+- A few cleanup for full release.
+
 Slick views 7.x-2.0-dev, 2015-11-29
 -----------------------------------
 - RC3 release.

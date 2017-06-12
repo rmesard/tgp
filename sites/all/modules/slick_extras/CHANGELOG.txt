@@ -1,4 +1,12 @@
 
+Slick extras 7.x-2.0-dev, 2015-12-12
+------------------------------------
+- Updated for Slick 1.5.9.
+
+Slick extras 7.x-2.0-dev, 2015-9-11
+-----------------------------------
+- Added QUICK STEPS for the slick_example.
+
 Slick extras 7.x-2.0-dev, 2015-9-9
 -----------------------------------
 - #2510500 by clapiotte: how to create field_images?

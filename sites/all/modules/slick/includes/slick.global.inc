@@ -22,6 +22,7 @@ function slick_get_global_default_settings() {
     'skin_arrows'         => '',
     'skin_dots'           => '',
     'slide_caption'       => array(),
+    'slide_classes'       => '',
     'slide_image'         => '',
     'slide_layout'        => '',
     'slide_overlay'       => array(),
@@ -85,10 +86,10 @@ function slick_get_image($settings = array(), $media = array(), $key = 0, $media
       '#image_style'  => $settings['image_style'],
       '#lazy'         => empty($settings['lazy']) || !empty($settings['unslick']) ? '' : $settings['lazy'],
       '#options'      => array(
-        'type'        => $media['type'],
-        'has_pattern' => !empty($settings['has_pattern']),
         'count'       => $settings['count'],
         'delta'       => $key,
+        'has_pattern' => !empty($settings['has_pattern']),
+        'type'        => $media['type'],
         'url'         => array(),
       ),
     );

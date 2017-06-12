@@ -276,7 +276,7 @@ To create Slick grid or multiple rows carousel, there are 3 options:
 The first 2 are supported by core library using pure JS approach.
 The last is the Module feature using pure CSS Foundation block-grid. The key is:
 the total amount of Views results must be bigger than Visible slides, otherwise
-broken Grid, see skin Grid above for more detals.
+broken Grid, see skin Grid above for more details.
 
 
 HTML STRUCTURE
@@ -352,7 +352,7 @@ TROUBLESHOOTING
 - If switching from beta1 to the latest via Drush fails, try the good old UI.
   Be sure to clear cache first, then run /update.php, if broken slick.
 
-- If you are customizing template files, or theme funtions, be sure to re-check
+- If you are customizing template files, or theme functions, be sure to re-check
   against the latest.
 
 - A Slick instance may be cached by its ID. Having two different slicks with the

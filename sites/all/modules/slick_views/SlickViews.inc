@@ -153,9 +153,11 @@ class SlickViews extends views_plugin_style {
     $build = array();
     foreach ($sets as $rows) {
       $items = $thumbs = $js = array();
+      $settings['count'] = count($rows);
+
       foreach ($rows as $index => $row) {
         $view->row_index = $index;
-        $settings['count'] = count($rows);
+
         $thumb = array();
         $slide = array(
           'caption'  => array(),

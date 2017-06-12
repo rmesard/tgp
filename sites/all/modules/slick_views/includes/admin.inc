@@ -12,7 +12,6 @@ function _slick_views_option_definition() {
     'editor_link'         => array('default' => ''),
     'slide_thumbnail'     => array('default' => ''),
     'slide_field_wrapper' => array('default' => FALSE),
-    'slide_classes'       => array('default' => ''),
     'id'                  => array('default' => ''),
   );
 
