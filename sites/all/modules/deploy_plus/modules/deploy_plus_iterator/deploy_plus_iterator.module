@@ -1,0 +1,125 @@
+<?php
+
+/**
+ * @file
+ * Deploy Plus Iterator module functions.
+ */
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function deploy_plus_iterator_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == 'entity_dependency' && $api == 'iterator') {
+    return array('version' => 1);
+  }
+}
+
+/**
+ * Implements hook_entity_dependency_iterator().
+ */
+function deploy_plus_iterator_entity_dependency_iterator() {
+  $plugins = array();
+
+  $plugins['deploy_plus_iterator_limited_dependency'] = array(
+    'title' => t('Limited Entity Dependency'),
+    'title callback' => 'deploy_plus_iterator_title',
+    // TODO add link to iterator settings page.
+    'description' => t('Deploy Iterator Limited Dependencies: This iterator will include only selected depedencies (default: files only). Referenced from menu item node will be deployed ignoring iterator configuration.'),
+    'handler' => 'LimitedDependences',
+    'file' => 'plugins/entity_dependency_iterator/limited_dependences.inc',
+    // Form id for custom configuration form.
+    'config_form' => 'deploy_plus_iterator_limited_dependency_config_form',
+  );
+
+  return $plugins;
+}
+
+/**
+ * Limited Dependency config form.
+ */
+function deploy_plus_iterator_limited_dependency_config_form($form, &$form_state, $plugin) {
+  $form = array();
+
+  $entities = entity_get_info();
+  $options = array();
+  // Override some labels for entities types.
+  $labels = array(
+    'i18n_translation' => t('Translation set (tnid of the current node).'),
+    'node' => t('Content - Related content (nodes) referenced by "Entity reference" field of the current entity.'),
+    'file' => t('Related files referenced by "File" field of the current entity.'),
+    'taxonomy_term' => t('Taxonomy term - Related terms referenced by "Term reference" field of the current entity.'),
+    'user' => t("Content author and/or user's reference by entity reference field."),
+  );
+
+  // Array of keys of element that should be hidden.
+  $hide = array('redirect', 'taxonomy_vocabulary', 'wysiwyg_profile');
+  foreach ($entities as $key => $entity) {
+    if (!in_array($key, $hide)) {
+      $options[$key] = isset($labels[$key]) ? $labels[$key] : $entity['label'];
+    }
+    switch ($key) {
+      case 'node':
+      case 'taxonomy_term':
+        foreach ($entity['bundles'] as $type => $bundle) {
+          $options[$key . '_' . $type] = '-- ' . $bundle['label'];
+        }
+        break;
+    }
+  }
+
+  $form['help'] = array(
+    '#type' => 'item',
+    '#title' => t('Next entities can be included to the deployment plan:'),
+    '#title_display' => 'before',
+    '#markup' => theme('item_list', array(
+      'items' => array(
+        t('Translation set'),
+        t('Content'),
+        t('File'),
+        t('Taxonomy term'),
+        t('User'),
+        t('Menu link'),
+        t('Redirect'),
+      ),
+    )),
+    '#description' => t('Dependencies for the entities above may or may not be automaticaly deployed.'),
+  );
+
+  $form['deploy_plus_iterator_limited_dependency_conf'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Select entity types that will be included as dependencies during the deployment automaticaly:'),
+    '#description' => t('During deployment only selected entity types will be deployed as dependencies, if possible. The rest will be skipped.<br />Please note that list above are all the entities from the system and it does not mean they all can be deployed.<br /><span class="form-required">Please note:</span> Deployment will fail (500 error) in case dependent entity does not exists on target server and dependency is excluded.'),
+    '#options' => $options,
+    '#default_value' => variable_get('deploy_plus_iterator_limited_dependency_conf', array('file' => 'file')),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Iterator title callback.
+ */
+function deploy_plus_iterator_title() {
+  $title = '';
+
+  if (module_exists('ctools')) {
+    ctools_include('plugins');
+    $info = ctools_get_plugins('entity_dependency', 'iterator', 'deploy_plus_iterator_limited_dependency');
+
+    $title = $info['title'];
+
+    // Get enabled entity types.
+    $conf = variable_get('deploy_plus_iterator_limited_dependency_conf', array('file' => 'file'));
+    $suffix = array();
+    foreach ($conf as $key => $value) {
+      if ($value) {
+        $suffix[] = $value;
+      }
+    }
+    if (!empty($suffix)) {
+      $title .= ' (' . implode(', ', $suffix) . ')';
+    }
+  }
+
+  return $title;
+}

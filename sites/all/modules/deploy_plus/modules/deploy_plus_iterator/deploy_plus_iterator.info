@@ -1,0 +1,11 @@
+name = Deploy Plus Iterator
+description = Adds additional deploy iterator.
+package = Deployment
+dependencies[] = deploy_plus
+
+; Information added by Drupal.org packaging script on 2017-05-11
+version = "7.x-3.2"
+core = "7.x"
+project = "deploy_plus"
+datestamp = "1494496091"
+

@@ -1,0 +1,13 @@
+name = Deploy Plus
+description = Adds additional UI and more control to Deployment module.
+package = Deployment
+dependencies[] = deploy
+dependencies[] = deploy_managed_ui
+dependencies[] = deploy_ui
+
+; Information added by Drupal.org packaging script on 2017-05-11
+version = "7.x-3.2"
+core = "7.x"
+project = "deploy_plus"
+datestamp = "1494496091"
+

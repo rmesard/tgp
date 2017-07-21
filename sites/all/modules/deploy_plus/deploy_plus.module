@@ -1,0 +1,395 @@
+<?php
+
+/**
+ * @file
+ * Deploy Plus module functions.
+ */
+
+// Deployment plans list path.
+define('DEPLOY_PLUS_PLANS_PATH', 'admin/structure/deploy/plans/list');
+
+// Iterators path.
+define('DEPLOY_PLUS_ITERATORS_PATH', 'admin/structure/deploy/iterators');
+
+// Include helper functions.
+include_once 'include/deploy_plus.helper.inc';
+// Include VBO related functions.
+include_once 'include/deploy_plus.vbo.inc';
+// Include log related functions.
+include_once 'include/deploy_plus.logs.inc';
+
+/**
+ * Implements hook_permission().
+ */
+function deploy_plus_permission() {
+  return array(
+    'use content deployment' => array(
+      'title' => t('Use content deployment'),
+      'description' => t('Perform content deployment actinos (plan overview, manage items in plan, deploy)'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function deploy_plus_menu() {
+  $items = array();
+
+  // Build menu item array to reuse it in for two items: MENU_NORMAL_ITEM
+  // and MENU_DEFAULT_LOCAL_TASK.
+  $review = array(
+    'title' => 'Review deployment plan',
+    'page callback' => 'deploy_plus_review_plan',
+    'page arguments' => array(3),
+    'access arguments' => array('use content deployment'),
+    'file' => 'include/deploy_plus.pages.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['admin/structure/deploy/%deploy_plan/review'] = $review;
+
+  $review['type'] = MENU_DEFAULT_LOCAL_TASK;
+  $review['title'] = 'Review';
+  $review['weight'] = 0;
+  $items['admin/structure/deploy/%deploy_plan/review/plan'] = $review;
+
+  // Menu item to delete all elements from the plan.
+  // @see deploy_ui.module
+  $items['admin/structure/deploy/%deploy_plan/review/empty'] = array(
+    'title' => 'Empty',
+    'description' => 'Remove all content from the plan',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('deploy_ui_empty_plan_form', 3),
+    'access arguments' => array('use content deployment'),
+    'file path' => drupal_get_path('module', 'deploy_ui'),
+    'file' => 'deploy_ui.pages.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+  );
+
+  // Deploy Logs page.
+  $items['admin/structure/deploy/%deploy_plan/review/logs'] = array(
+    'title' => 'Logs',
+    'description' => 'Deployment Logs',
+    'page callback' => 'drupal_plus_logs',
+    'page arguments' => array(3),
+    'access arguments' => array('use content deployment'),
+    'file' => 'include/deploy_plus.logs.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 15,
+  );
+
+  // Add all entities of given type from dependencies to plan.
+  $items['admin/structure/deploy/%deploy_plan/dependency/%/add'] = array(
+    'title' => 'Add all entities of given type from dependencies to plan',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('deploy_plus_add_entity_type_plan_form', 3, 5),
+    'access arguments' => array('use content deployment'),
+    'file' => 'include/deploy_plus.pages.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  // Add entity to plan.
+  $items['admin/structure/deploy/%deploy_plan/%/%/add'] = array(
+    'title' => 'Add entity to plan',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('deploy_plus_manage_entity_plan_form', 3, 4, 5, 6),
+    'access arguments' => array('use content deployment'),
+    'file' => 'include/deploy_plus.pages.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  // Menu item to delete one element from the plan.
+  $items['admin/structure/deploy/%deploy_plan/%/%/delete'] = array(
+    'title' => 'Remove from plan',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('deploy_plus_manage_entity_plan_form', 3, 4, 5, 6),
+    'access arguments' => array('use content deployment'),
+    'file' => 'include/deploy_plus.pages.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items[DEPLOY_PLUS_ITERATORS_PATH] = array(
+    'title' => 'Iterators',
+    'page callback' => 'drupal_plus_admin_iterators_page',
+    'access arguments' => array('administer deployments'),
+    'file' => 'include/deploy_plus.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 15,
+  );
+
+  // Dependency Plugin setting page.
+  $items[DEPLOY_PLUS_ITERATORS_PATH . '/%deploy_plus_dependency_plugin_info/config'] = array(
+    'title' => 'Dependency Plugin Settings',
+    'title callback' => 'deploy_plus_dependency_plugin_config_title',
+    'title arguments' => array(4),
+    'page callback' => 'deploy_plus_dependency_plugin_config',
+    'page arguments' => array(4),
+    'access callback' => 'deploy_plus_dependency_plugin_config_access',
+    'access arguments' => array('administer deployments', 4),
+    'file' => 'include/deploy_plus.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function deploy_plus_menu_alter(&$items) {
+  if (isset($items['admin/structure/deploy'])) {
+    $items['admin/structure/deploy']['page callback'] = 'deploy_plus_overview_page';
+    $items['admin/structure/deploy']['access arguments'] = array('use content deployment');
+    $items['admin/structure/deploy']['access callback'] = 'user_access';
+    $items['admin/structure/deploy']['file'] = 'include/deploy_plus.pages.inc';
+    $items['admin/structure/deploy']['file path'] = drupal_get_path('module', 'deploy_plus');
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function deploy_plus_theme($existing, $type, $theme, $path) {
+  return array(
+    'deploy_plus_overview' => array(
+      'variables' => array('blocks' => array()),
+      'file' => 'include/deploy_plus.theme.inc',
+    ),
+    'deploy_plus_overview_plan_page' => array(
+      'variables' => array(
+        'info'    => array(),
+        'message' => NULL,
+        'actions' => array(),
+      ),
+      'file' => 'include/deploy_plus.theme.inc',
+    ),
+    'deploy_plus_plan_configuration' => array(
+      'variables' => array(
+        'plan' => NULL,
+      ),
+      'file' => 'include/deploy_plus.theme.inc',
+    ),
+    'deploy_plus_overview_plan_content_details' => array(
+      'variables' => array('info' => array()),
+      'file' => 'include/deploy_plus.theme.inc',
+    ),
+    'deploy_plus_menu_overview_form' => array(
+      'render element' => 'form',
+      'file' => 'include/deploy_plus.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_action_info().
+ */
+function deploy_plus_action_info() {
+  // @see include/deploy_plus.vbo.inc.
+  return array(
+    'deploy_plus_plan_action' => array(
+      'type' => 'entity',
+      'label' => t('Manage entity in deployment plan'),
+      'configurable' => TRUE,
+      'behavior' => array('views_property'),
+    ),
+    'deploy_plus_plan_action_add' => array(
+      'type' => 'entity',
+      'label' => t('Deployment plan: add entity'),
+      'configurable' => TRUE,
+      'behavior' => array('views_property'),
+    ),
+    'deploy_plus_plan_action_remove' => array(
+      'type' => 'entity',
+      'label' => t('Deployment plan: remove entity'),
+      'configurable' => TRUE,
+      'behavior' => array('views_property'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add "Deploy operations" selector to admin/structure/menu/manage/%menu.
+ * Overwrite theme of the page to support new element.
+ */
+function deploy_plus_form_menu_overview_form_alter(&$form, &$form_state) {
+  if (module_exists('entity_menu_links')) {
+    $links = menu_load_links($form['#menu']['menu_name']);
+    foreach ($links as $link) {
+      if (!empty($form['mlid:' . $link['mlid']])) {
+        $form['mlid:' . $link['mlid']]['plan'] = array(
+          '#type' => 'checkbox',
+          '#title' => t('Deploy'),
+          '#title_display' => 'invisible',
+          '#default_value' => FALSE,
+        );
+      }
+    }
+    $options = array();
+    $options[] = t('Please Select');
+
+    $plans = deploy_plan_load_all();
+    foreach ($plans as $name => $plan) {
+      $options[t('Add to managed deployment plan')]["add_to:$name"] = $plan->title;
+      $options[t('Remove from managed deployment plan')]["delete_from:$name"] = $plan->title;
+    }
+
+    $form['plan'] = array(
+      '#type' => 'select',
+      '#title' => t('Deploy operations'),
+      '#options' => $options,
+    );
+
+    $form['#theme'] = array('deploy_plus_menu_overview_form');
+    $form['#submit'][] = 'deploy_plus_form_menu_overview_form_submit';
+  }
+}
+
+/**
+ * Submit handler for menu_overview_form().
+ *
+ * Add/Delete menu links to/from deployment plan.
+ *
+ * @see deploy_managed_ui_form_menu_overview_form_alter()
+ */
+function deploy_plus_form_menu_overview_form_submit(&$form, &$form_state) {
+  $values = $form_state['values'];
+  if ($values['plan']) {
+    $context = array(
+      'operation' => '',
+      'plan' => '',
+      'entity_type' => 'menu_link',
+    );
+    list($context['operation'], $context['plan']) = explode(':', $values['plan']);
+    foreach ($form_state['values'] as $value) {
+      if (isset($value['mlid']) && $value['plan'] == 1) {
+        $entity = entity_load_single($context['entity_type'], $value['mlid']);
+        deploy_plus_plan_action($entity, $context);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function deploy_plus_form_alter(&$form, &$form_state, $form_id) {
+  // Show add to plan element on next forms.
+  $form_ids = array(
+    'user_profile_form',
+    'user_register_form',
+    'redirect_edit_form',
+    'taxonomy_form_term',
+  );
+
+  if (in_array($form_id, $form_ids)) {
+    // Do not show this on delete confirm form.
+    if (!isset($form['confirm']['#value'])) {
+      // @see deploy_managed_ui.module
+      // @see include/deploy_plus.helper.inc
+      deploy_managed_ui_form_elements($form, '_deploy_plus_form_entity_edit_form_submit');
+      $form['deploy_managed_ui']['#collapsed'] = TRUE;
+    }
+  }
+}
+
+/**
+ * Implements hook_redirect_insert().
+ */
+function deploy_plus_redirect_insert($redirect) {
+  if (isset($redirect->deploy_managed_ui['plans'])) {
+    foreach ($redirect->deploy_managed_ui['plans'] as $plan) {
+      if ($plan) {
+        deploy_manager_add_to_plan($plan, 'redirect', $redirect);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_dependencies().
+ */
+function deploy_plus_entity_dependencies($entity, $entity_type) {
+  $dependencies = array();
+
+  switch ($entity_type) {
+    case 'node':
+      if (module_exists('redirect')) {
+        // Add redirects as an dependencies.
+        $redirects = redirect_load_multiple(FALSE, array('redirect' => 'node/' . $entity->nid));
+        if ($redirects) {
+          foreach ($redirects as $redirect) {
+            entity_dependency_add($dependencies, $redirect, 'redirect', 'rid');
+          }
+        }
+      }
+      break;
+
+    case 'redirect':
+      $node = menu_get_object('node', 1, $entity->redirect);
+      if ($node) {
+        entity_dependency_add($dependencies, $node, 'node', 'nid');
+      }
+      break;
+
+    default:
+      break;
+  }
+
+  return $dependencies;
+}
+
+/**
+ * Load dependency plugin info.
+ *
+ * @param string $plugin
+ *   Dependency plugin machine name.
+ *
+ * @return array
+ *   Settigns array or empty array.
+ */
+function deploy_plus_dependency_plugin_info_load($plugin) {
+  $dependency_plugin_info = array('config_form' => FALSE);
+
+  if (module_exists('ctools')) {
+    ctools_include('plugins');
+    $dependency_plugin_info = ctools_get_plugins('entity_dependency', 'iterator', $plugin);
+    if (!isset($dependency_plugin_info['config_form'])) {
+      $dependency_plugin_info['config_form'] = FALSE;
+    }
+  }
+
+  return $dependency_plugin_info;
+}
+
+/**
+ * Access callback for iterator config page.
+ *
+ * @param string $permission
+ *   Permission name to pass to user_access().
+ * @param array $iterator_info
+ *   Iterator info array.
+ *
+ * @return bool
+ *   TRUE if access granted, FALSE otherwise.
+ */
+function deploy_plus_dependency_plugin_config_access($permission, $iterator_info) {
+  $access = FALSE;
+
+  if ($iterator_info['config_form']) {
+    $access = user_access($permission);
+  }
+
+  return $access;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function deploy_plus_entity_info_alter(&$entity_info) {
+  if (!isset($entity_info['redirect']['entity keys']['language'])) {
+    $entity_info['redirect']['entity keys']['language'] = 'language';
+  }
+}
