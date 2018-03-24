@@ -111,7 +111,7 @@ function deploy_plus_iterator_title() {
     // Get enabled entity types.
     $conf = variable_get('deploy_plus_iterator_limited_dependency_conf', array('file' => 'file'));
     $suffix = array();
-    foreach ($conf as $key => $value) {
+    foreach ($conf as $value) {
       if ($value) {
         $suffix[] = $value;
       }

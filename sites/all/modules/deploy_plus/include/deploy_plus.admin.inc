@@ -9,22 +9,22 @@
  * Title callback for iterator config page.
  *
  * @param array $iterator_info
- *   Iterator info array.
+ *   Iterator info (array) from the deploy_plus_dependency_plugin_info_load().
  *
  * @return string
  *   Iterator config page title.
  */
-function deploy_plus_dependency_plugin_config_title($iterator_info) {
+function deploy_plus_dependency_plugin_config_title(array $iterator_info) {
   return t('!iterator Settings', array('!iterator' => $iterator_info['title']));
 }
 
 /**
- * Dependency Plugin settings page general callback.
+ * Dependency Interator Plugin settings page general callback.
  *
  * @param array $plugin
- *   Array plugin info.
+ *   Plugin info (array) from the deploy_plus_dependency_plugin_info_load().
  */
-function deploy_plus_dependency_plugin_config($plugin) {
+function deploy_plus_dependency_plugin_config(array $plugin) {
   return drupal_get_form($plugin['config_form'], $plugin);
 }
 

@@ -1,3 +1,14 @@
+Deploy Plus 7.x-3.3, 2017-08-30
+--------------------------------
+- by dasha_v: PHPCS fix for: Type hint array missing.
+- Handle proper redirects after clicking Empty tab on plan review page.
+- PHP_CodeSniffer 2.7.0 code cleanup.
+- Fix misspeled variable name.
+- Handle proper redirects after clicking Empty plan link on plans overview page.
+- Remove 'Use content deployment' permission as in Deploy - Content Staging
+  module (starting from version 7.x-3.0-alpha1) implemented permission
+  'Deploy deployment plans' which uses for same purpose.
+
 Deploy Plus 7.x-3.2, 2017-05-10
 --------------------------------
 - Use user_access function for admin/structure/deploy page access callback.

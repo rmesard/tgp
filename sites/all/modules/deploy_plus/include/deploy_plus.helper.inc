@@ -34,7 +34,7 @@ function deploy_plus_get_entity_dependencies($entity, $type) {
       $traversed[$dependency['type']] = array();
     }
 
-    $typeraversed[$dependency['type']][$dependency['id']] = 1;
+    $traversed[$dependency['type']][$dependency['id']] = 1;
 
     // Some ids are actually uuids, but others are serial ids.
     // We distinguish them by is_numeric check.

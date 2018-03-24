@@ -135,7 +135,8 @@ class LimitedDependences extends DeployIterator {
               break;
 
             case 'taxonomy_term':
-              // Taxonomy are not allowed globally, check current term vocabulary.
+              // Taxonomy are not allowed globally, check current term
+              // vocabulary.
               $term = taxonomy_term_load($item['id']);
               if ($term) {
                 $key = 'taxonomy_term_' . $term->vocabulary_machine_name;

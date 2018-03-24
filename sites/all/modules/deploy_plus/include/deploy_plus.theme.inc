@@ -226,7 +226,10 @@ function theme_deploy_plus_overview($variables) {
           ),
           array(
             'title' => t('Empty'),
-            'href' => "admin/structure/deploy/{$block['plan_name']}/empty",
+            'href' => "admin/structure/deploy/plans/list/{$block['plan_name']}/empty",
+            'query' => array(
+              'return' => 'admin/structure/deploy',
+            ),
           ),
           array(
             'title' => t('Logs'),

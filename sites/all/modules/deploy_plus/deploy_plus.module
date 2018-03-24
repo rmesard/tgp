@@ -19,18 +19,6 @@ include_once 'include/deploy_plus.vbo.inc';
 include_once 'include/deploy_plus.logs.inc';
 
 /**
- * Implements hook_permission().
- */
-function deploy_plus_permission() {
-  return array(
-    'use content deployment' => array(
-      'title' => t('Use content deployment'),
-      'description' => t('Perform content deployment actinos (plan overview, manage items in plan, deploy)'),
-    ),
-  );
-}
-
-/**
  * Implements hook_menu().
  */
 function deploy_plus_menu() {
@@ -42,7 +30,7 @@ function deploy_plus_menu() {
     'title' => 'Review deployment plan',
     'page callback' => 'deploy_plus_review_plan',
     'page arguments' => array(3),
-    'access arguments' => array('use content deployment'),
+    'access arguments' => array('view deployment plans'),
     'file' => 'include/deploy_plus.pages.inc',
     'type' => MENU_NORMAL_ITEM,
   );
@@ -60,7 +48,8 @@ function deploy_plus_menu() {
     'description' => 'Remove all content from the plan',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('deploy_ui_empty_plan_form', 3),
-    'access arguments' => array('use content deployment'),
+    'access arguments' => array('edit deployment plans'),
+    'access callback' => 'deploy_ui_user_access',
     'file path' => drupal_get_path('module', 'deploy_ui'),
     'file' => 'deploy_ui.pages.inc',
     'type' => MENU_LOCAL_TASK,
@@ -73,7 +62,7 @@ function deploy_plus_menu() {
     'description' => 'Deployment Logs',
     'page callback' => 'drupal_plus_logs',
     'page arguments' => array(3),
-    'access arguments' => array('use content deployment'),
+    'access arguments' => array('view deployment plans'),
     'file' => 'include/deploy_plus.logs.inc',
     'type' => MENU_LOCAL_TASK,
     'weight' => 15,
@@ -84,7 +73,8 @@ function deploy_plus_menu() {
     'title' => 'Add all entities of given type from dependencies to plan',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('deploy_plus_add_entity_type_plan_form', 3, 5),
-    'access arguments' => array('use content deployment'),
+    'access callback' => 'deploy_ui_user_access',
+    'access arguments' => array('edit deployment plans'),
     'file' => 'include/deploy_plus.pages.inc',
     'type' => MENU_NORMAL_ITEM,
   );
@@ -94,7 +84,8 @@ function deploy_plus_menu() {
     'title' => 'Add entity to plan',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('deploy_plus_manage_entity_plan_form', 3, 4, 5, 6),
-    'access arguments' => array('use content deployment'),
+    'access callback' => 'deploy_ui_user_access',
+    'access arguments' => array('edit deployment plans'),
     'file' => 'include/deploy_plus.pages.inc',
     'type' => MENU_NORMAL_ITEM,
   );
@@ -104,7 +95,8 @@ function deploy_plus_menu() {
     'title' => 'Remove from plan',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('deploy_plus_manage_entity_plan_form', 3, 4, 5, 6),
-    'access arguments' => array('use content deployment'),
+    'access callback' => 'deploy_ui_user_access',
+    'access arguments' => array('edit deployment plans'),
     'file' => 'include/deploy_plus.pages.inc',
     'type' => MENU_NORMAL_ITEM,
   );
@@ -112,7 +104,7 @@ function deploy_plus_menu() {
   $items[DEPLOY_PLUS_ITERATORS_PATH] = array(
     'title' => 'Iterators',
     'page callback' => 'drupal_plus_admin_iterators_page',
-    'access arguments' => array('administer deployments'),
+    'access arguments' => array('administer deployment plans'),
     'file' => 'include/deploy_plus.admin.inc',
     'type' => MENU_LOCAL_TASK,
     'weight' => 15,
@@ -126,7 +118,7 @@ function deploy_plus_menu() {
     'page callback' => 'deploy_plus_dependency_plugin_config',
     'page arguments' => array(4),
     'access callback' => 'deploy_plus_dependency_plugin_config_access',
-    'access arguments' => array('administer deployments', 4),
+    'access arguments' => array('administer deployment plans', 4),
     'file' => 'include/deploy_plus.admin.inc',
     'type' => MENU_NORMAL_ITEM,
   );
@@ -140,7 +132,7 @@ function deploy_plus_menu() {
 function deploy_plus_menu_alter(&$items) {
   if (isset($items['admin/structure/deploy'])) {
     $items['admin/structure/deploy']['page callback'] = 'deploy_plus_overview_page';
-    $items['admin/structure/deploy']['access arguments'] = array('use content deployment');
+    $items['admin/structure/deploy']['access arguments'] = array('deploy deployment plans');
     $items['admin/structure/deploy']['access callback'] = 'user_access';
     $items['admin/structure/deploy']['file'] = 'include/deploy_plus.pages.inc';
     $items['admin/structure/deploy']['file path'] = drupal_get_path('module', 'deploy_plus');
@@ -206,6 +198,46 @@ function deploy_plus_action_info() {
       'behavior' => array('views_property'),
     ),
   );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @see deploy_ui_empty_plan_form()
+ */
+function deploy_plus_form_deploy_ui_empty_plan_form_alter(&$form, &$form_state) {
+  $return = FALSE;
+
+  if (isset($_REQUEST['return']) && valid_url($_REQUEST['return'])) {
+    $return = array(
+      'redirect' => $_REQUEST['return'],
+      'cancel' => $_REQUEST['return'],
+    );
+  }
+  else {
+    $path = "admin/structure/deploy/{$form['deploy_plan']['#value']->name}/review";
+    if (current_path() == "{$path}/empty") {
+      $return = array(
+        'redirect' => 'admin/structure/deploy',
+        'cancel' => $path,
+      );
+    }
+  }
+
+  if ($return) {
+    $form['deploy_plus_redirect']['#value'] = $return['redirect'];
+    $form['actions']['cancel']['#href'] = $return['cancel'];
+    $form['#submit'][] = 'deploy_plus_deploy_ui_empty_plan_form_submit';
+  }
+}
+
+/**
+ * Submit handler for empty plan form.
+ *
+ * @see deploy_ui_empty_plan_form_submit()
+ */
+function deploy_plus_deploy_ui_empty_plan_form_submit($form, &$form_state) {
+  $form_state['redirect'] = $form['deploy_plus_redirect']['#value'];
 }
 
 /**
@@ -370,12 +402,12 @@ function deploy_plus_dependency_plugin_info_load($plugin) {
  * @param string $permission
  *   Permission name to pass to user_access().
  * @param array $iterator_info
- *   Iterator info array.
+ *   Iterator info (array) from the deploy_plus_dependency_plugin_info_load().
  *
  * @return bool
  *   TRUE if access granted, FALSE otherwise.
  */
-function deploy_plus_dependency_plugin_config_access($permission, $iterator_info) {
+function deploy_plus_dependency_plugin_config_access($permission, array $iterator_info) {
   $access = FALSE;
 
   if ($iterator_info['config_form']) {
