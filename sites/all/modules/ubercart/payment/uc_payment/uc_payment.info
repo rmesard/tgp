@@ -10,9 +10,8 @@ files[] = tests/uc_payment.test
 
 configure = admin/store/settings/payment
 
-; Information added by Drupal.org packaging script on 2016-07-16
-version = "7.x-3.10"
+; Information added by Drupal.org packaging script on 2019-10-01
+version = "7.x-3.13"
 core = "7.x"
 project = "ubercart"
-datestamp = "1468644909"
-
+datestamp = "1569942207"
